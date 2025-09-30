@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# 系統檔案
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日誌檔案
+*.log
+
+# 暫存檔案
+*.tmp
+*.temp
+*~
+
+# Node modules (如果未來使用)
+node_modules/
+
+# 備份檔案
+*.bak
+*.backup

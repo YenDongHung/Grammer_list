@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日文文法複習</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">日文文法複習</h1>
+            <p class="subtitle">Japanese Grammar Review</p>
+        </header>
+
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>語法目錄</h3>
+                <button id="toggleSidebar" class="toggle-btn" title="收合/展開側邊欄">◀</button>
+            </div>
+            <ul id="grammarList" class="grammar-list">
+                <!-- 動態生成的目錄將插入這裡 -->
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="搜尋語法點..." class="search-input">
+                <button id="searchBtn" class="search-btn">🔍</button>
+            </div>
+
+            <div id="content" class="content">
+                <!-- Markdown 內容將在這裡動態渲染 -->
+                <div class="welcome-message">
+                    <h2>歡迎來到日文文法複習</h2>
+                    <p>這是一個系統化的日語語法複習資源，包含詳細的語法解釋、例句和重點整理。</p>
+                    
+                    <div class="grammar-overview">
+                        <h3>📋 文法項目一覽</h3>
+                        <div id="grammarOverviewList" class="grammar-overview-grid">
+                            <!-- 動態生成的文法標題列表將插入這裡 -->
+                        </div>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <h3>📚 詳細解釋</h3>
+                            <p>每個語法點都包含完整的意義、用法說明</p>
+                        </div>
+                        <div class="feature">
+                            <h3>💡 實用例句</h3>
+                            <p>提供豐富的例句和中文翻譯</p>
+                        </div>
+                        <div class="feature">
+                            <h3>⚡ 快速參考</h3>
+                            <p>重點速記幫助快速複習</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 日文文法複習 | 建立於 JavaScript 和 Markdown</p>
+    </footer>
+
+    <!-- 載入必要的 JavaScript 庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

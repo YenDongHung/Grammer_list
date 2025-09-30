@@ -1,0 +1,675 @@
+/* 重置和基本樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans TC', 'Noto Sans JP', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: 
+        "header header"
+        "sidebar content"
+        "footer footer";
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    transition: grid-template-columns 0.3s ease;
+}
+
+.container.sidebar-collapsed {
+    grid-template-columns: 60px 1fr;
+}
+
+/* 標題區域 */
+.header {
+    grid-area: header;
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+    pointer-events: none;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+}
+
+/* 側邊欄 */
+.sidebar {
+    grid-area: sidebar;
+    background: #f8f9fa;
+    border-right: 1px solid #e9ecef;
+    height: 100vh;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    transition: all 0.3s ease;
+    width: 300px;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar.collapsed .sidebar-header h3,
+.sidebar.collapsed .grammar-list {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar.collapsed .toggle-btn {
+    transform: rotate(180deg);
+}
+
+/* 收合狀態的特殊樣式 */
+.sidebar.collapsed {
+    overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding: 1.5rem 0.5rem;
+}
+
+/* 工具提示 */
+.toggle-btn {
+    position: relative;
+}
+
+.toggle-btn::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1001;
+}
+
+.toggle-btn:hover::after {
+    opacity: 1;
+}
+
+/* 手機版時隱藏工具提示 */
+@media (max-width: 768px) {
+    .toggle-btn::after {
+        display: none;
+    }
+    
+    .toggle-btn {
+        font-size: 1.2rem;
+    }
+    
+    .sidebar.collapsed .toggle-btn {
+        transform: none;
+    }
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    background: #343a40;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.sidebar-header h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.grammar-list {
+    list-style: none;
+    padding: 1rem 0;
+    transition: opacity 0.3s ease;
+}
+
+.grammar-list li {
+    margin: 0;
+}
+
+.grammar-list a {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    color: #495057;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 400;
+}
+
+.grammar-list a:hover {
+    background: #e9ecef;
+    border-left-color: #007bff;
+    color: #007bff;
+    transform: translateX(5px);
+}
+
+.grammar-list a.active {
+    background: #007bff;
+    color: white;
+    border-left-color: #0056b3;
+}
+
+/* 主要內容區域 */
+.main-content {
+    grid-area: content;
+    padding: 2rem;
+    overflow-y: auto;
+    background: #fff;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 25px 0 0 25px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+}
+
+.search-btn {
+    padding: 0.8rem 1.2rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #0056b3;
+}
+
+/* 內容樣式 */
+.content {
+    line-height: 1.8;
+}
+
+.content h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #3498db;
+    font-weight: 600;
+}
+
+.content h2 {
+    color: #34495e;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem 0;
+    padding: 0.5rem 0;
+    border-left: 4px solid #e74c3c;
+    padding-left: 1rem;
+    background: linear-gradient(90deg, rgba(231, 76, 60, 0.1), transparent);
+}
+
+.content h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin: 1.5rem 0 0.8rem 0;
+    font-weight: 500;
+}
+
+.content p {
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.content ul, .content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.content li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.content li strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* 日語例句樣式 */
+.content li:has(>span[lang="ja"]),
+.content p:has(>span[lang="ja"]) {
+    background: linear-gradient(90deg, #f8f9fa, transparent);
+    padding: 0.8rem;
+    border-left: 3px solid #28a745;
+    margin: 0.5rem 0;
+    border-radius: 0 5px 5px 0;
+}
+
+/* 歡迎訊息 */
+.welcome-message {
+    text-align: center;
+    padding: 3rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.welcome-message h2 {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.welcome-message p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+}
+
+.feature h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.feature p {
+    color: #666;
+    margin: 0;
+}
+
+/* 程式碼區塊 */
+pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-family: 'Fira Code', monospace;
+}
+
+code {
+    background: #f1f3f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Fira Code', monospace;
+    color: #e91e63;
+}
+
+/* 頁尾 */
+.footer {
+    grid-area: footer;
+    background: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "header"
+            "content"
+            "footer";
+    }
+    
+    .container.sidebar-collapsed {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 280px;
+        z-index: 1000;
+        transform: translateX(-100%);
+        height: 100vh;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .sidebar.collapsed {
+        width: 280px;
+    }
+    
+    .sidebar.collapsed .sidebar-header h3,
+    .sidebar.collapsed .grammar-list {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .sidebar.collapsed .toggle-btn {
+        transform: none;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .features {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .search-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .feature {
+        padding: 1.5rem;
+    }
+}
+
+/* 滾動條樣式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 動畫效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content > * {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 強調樣式 */
+.content strong {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.content em {
+    color: #3498db;
+    font-style: normal;
+    font-weight: 500;
+}
+
+/* 表格樣式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+/* 引用樣式 */
+blockquote {
+    border-left: 4px solid #3498db;
+    background: linear-gradient(90deg, rgba(52, 152, 219, 0.1), transparent);
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: #555;
+}
+
+/* 按鈕樣式 */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* 文法概覽樣式 */
+.grammar-overview {
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.grammar-overview h3 {
+    color: #2c3e50;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.grammar-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.grammar-item {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.grammar-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #007bff;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.grammar-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: #007bff;
+}
+
+.grammar-item:hover::before {
+    opacity: 1;
+}
+
+.grammar-item h4 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.grammar-item:hover h4 {
+    color: #007bff;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .grammar-overview-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .grammar-item {
+        padding: 0.8rem;
+    }
+    
+    .grammar-item h4 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grammar-overview h3 {
+        font-size: 1.2rem;
+    }
+    
+    .grammar-item {
+        padding: 0.7rem;
+    }
+}
