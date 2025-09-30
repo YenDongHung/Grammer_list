@@ -246,15 +246,18 @@ function updateActiveLink(activeLink) {
 // 設置手機版選單和收合功能
 function setupMobileMenu() {
     const toggleBtn = document.getElementById('toggleSidebar');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileOverlay = document.getElementById('mobileOverlay');
     const sidebar = document.querySelector('.sidebar');
     const container = document.querySelector('.container');
     
+    // 桌面版側邊欄收合功能
     if (toggleBtn && sidebar) {
         toggleBtn.addEventListener('click', () => {
             // 檢查是否為手機版
             if (window.innerWidth <= 768) {
                 // 手機版：切換顯示/隱藏
-                sidebar.classList.toggle('active');
+                toggleMobileSidebar();
             } else {
                 // 桌面版：切換收合/展開
                 sidebar.classList.toggle('collapsed');
@@ -265,47 +268,86 @@ function setupMobileMenu() {
                 localStorage.setItem('sidebarCollapsed', isCollapsed);
             }
         });
-        
-        // 載入儲存的收合狀態
+    }
+    
+    // 手機版選單按鈕
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', () => {
+            toggleMobileSidebar();
+        });
+    }
+    
+    // 手機版遮罩點擊關閉
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', () => {
+            closeMobileMenu();
+        });
+    }
+    
+    // 切換手機版側邊欄的函數
+    function toggleMobileSidebar() {
+        const isActive = sidebar.classList.contains('active');
+        if (isActive) {
+            closeMobileMenu();
+        } else {
+            sidebar.classList.add('active');
+            if (mobileOverlay) mobileOverlay.classList.add('active');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.textContent = '✕';
+                mobileMenuBtn.title = '關閉選單';
+            }
+        }
+    }
+    
+    // 載入儲存的收合狀態（僅桌面版）
+    if (window.innerWidth > 768) {
         const savedCollapsedState = localStorage.getItem('sidebarCollapsed');
-        if (savedCollapsedState === 'true' && window.innerWidth > 768) {
+        if (savedCollapsedState === 'true') {
             sidebar.classList.add('collapsed');
             container.classList.add('sidebar-collapsed');
         }
-        
-        // 監聽視窗大小變化
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                // 切換到桌面版時，移除手機版的 active 類別
-                sidebar.classList.remove('active');
-                
-                // 恢復桌面版的收合狀態
-                const savedCollapsedState = localStorage.getItem('sidebarCollapsed');
-                if (savedCollapsedState === 'true') {
-                    sidebar.classList.add('collapsed');
-                    container.classList.add('sidebar-collapsed');
-                }
-            } else {
-                // 切換到手機版時，移除桌面版的收合類別
-                sidebar.classList.remove('collapsed');
-                container.classList.remove('sidebar-collapsed');
-            }
-        });
-        
-        // 點擊內容區域關閉手機版選單
-        document.querySelector('.main-content').addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                closeMobileMenu();
-            }
-        });
     }
+    
+    // 監聽視窗大小變化
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            // 切換到桌面版時
+            closeMobileMenu();
+            
+            // 恢復桌面版的收合狀態
+            const savedCollapsedState = localStorage.getItem('sidebarCollapsed');
+            if (savedCollapsedState === 'true') {
+                sidebar.classList.add('collapsed');
+                container.classList.add('sidebar-collapsed');
+            }
+        } else {
+            // 切換到手機版時，移除桌面版的收合類別
+            sidebar.classList.remove('collapsed');
+            container.classList.remove('sidebar-collapsed');
+        }
+    });
+    
+    // 點擊內容區域關閉手機版選單
+    document.querySelector('.main-content').addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            closeMobileMenu();
+        }
+    });
 }
 
 // 關閉手機版選單
 function closeMobileMenu() {
     const sidebar = document.querySelector('.sidebar');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    
     if (sidebar && window.innerWidth <= 768) {
         sidebar.classList.remove('active');
+        if (mobileOverlay) mobileOverlay.classList.remove('active');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.textContent = '☰';
+            mobileMenuBtn.title = '開啟選單';
+        }
     }
 }
 

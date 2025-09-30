@@ -403,6 +403,48 @@ code {
     font-size: 0.9rem;
 }
 
+/* 手機版選單按鈕 */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1001;
+    background: #343a40;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+    background: #495057;
+    transform: scale(1.05);
+}
+
+/* 手機版選單遮罩 */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
 /* 響應式設計 */
 @media (max-width: 768px) {
     .container {
@@ -417,6 +459,11 @@ code {
         grid-template-columns: 1fr;
     }
     
+    /* 顯示手機版選單按鈕 */
+    .mobile-menu-btn {
+        display: block;
+    }
+    
     .sidebar {
         position: fixed;
         left: 0;
@@ -425,14 +472,21 @@ code {
         z-index: 1000;
         transform: translateX(-100%);
         height: 100vh;
+        transition: transform 0.3s ease;
     }
     
     .sidebar.active {
         transform: translateX(0);
     }
     
+    /* 手機版時重置桌面版的收合狀態 */
     .sidebar.collapsed {
         width: 280px;
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.collapsed.active {
+        transform: translateX(0);
     }
     
     .sidebar.collapsed .sidebar-header h3,
@@ -447,6 +501,7 @@ code {
     
     .main-content {
         padding: 1rem;
+        padding-top: 4rem; /* 為手機版選單按鈕留空間 */
     }
     
     .main-title {
